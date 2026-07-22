@@ -9,6 +9,8 @@ const {
 
 const fs = require("fs");
 
+const { updateRobloxStatus } = require("./events/robloxStatus");
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -33,8 +35,18 @@ for (const folder of commandFolders) {
   }
 }
 
-client.once(Events.ClientReady, () => {
+client.once(Events.ClientReady, async () => {
   console.log(`✅ ${client.user.tag} is online!`);
+
+  await updateRobloxStatus(client);
+
+client.application.commands.fetch().then(commands => {
+  console.log(`Loaded ${commands.size} slash commands.`);
+});
+
+  setInterval(async () => {
+    await updateRobloxStatus(client);
+  }, 60000);
 });
 
 const guildMemberAdd = require("./events/guildMemberAdd");

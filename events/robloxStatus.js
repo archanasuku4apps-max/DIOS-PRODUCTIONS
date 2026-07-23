@@ -9,6 +9,8 @@ const config = require("../config/roblox");
 const { getGameData } = require("../services/robloxApi");
 
 async function updateRobloxStatus(client) {
+console.log("🔄 updateRobloxStatus() called");
+
   try {
     const channel = await client.channels.fetch(config.CHANNEL_ID);
     const message = await channel.messages.fetch(config.MESSAGE_ID);
